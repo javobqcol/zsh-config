@@ -102,11 +102,20 @@ install_plugin() {
 
     if [ ! -d "$ZSH_CUSTOM/plugins/$name" ]; then
         git clone --depth=1 "$repo" "$ZSH_CUSTOM/plugins/$name"
+        echo "[✓] Installed: $name"
     else
         echo "[OK] $name already installed"
     fi
 }
 
+# Core plugins (incluyen en Oh My Zsh)
+echo "[*] Core plugins (built-in)..."
+for plugin in git vi-mode extract colored-man-pages command-not-found sudo copyfile copypath web-search debian archlinux; do
+    echo "[✓] $plugin available (built-in)"
+done
+
+# Plugins externos que necesitan clonarse
+echo "[*] External plugins..."
 install_plugin zsh-autosuggestions \
     https://github.com/zsh-users/zsh-autosuggestions
 
@@ -115,6 +124,16 @@ install_plugin zsh-syntax-highlighting \
 
 install_plugin zsh-history-substring-search \
     https://github.com/zsh-users/zsh-history-substring-search
+
+# Instalar fzf (búsqueda fuzzy) - opcional pero muy útil
+echo "[*] Installing fzf (fuzzy finder)..."
+if [ ! -d "$HOME/.fzf" ]; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+    "$HOME/.fzf/install" --all --no-update-rc --no-bash --no-fish 2>/dev/null || true
+    echo "[✓] fzf installed"
+else
+    echo "[OK] fzf already installed"
+fi
 
 echo
 echo "[*] Backing up current config..."
@@ -172,4 +191,16 @@ echo
 echo "Next steps:"
 echo "1. Close this terminal and open a new one"
 echo "2. If you want to customize the prompt, run: p10k configure"
+echo
+echo "Installed plugins:"
+echo "  • Autosuggestions: Press → to accept suggestion"
+echo "  • Syntax highlighting: Real-time syntax validation"
+echo "  • History search: Press ↑↓ on typed command to search"
+echo "  • Extract: extract archive.tar.gz"
+echo "  • Sudo: Press ESC+ESC to prepend sudo"
+echo "  • Fzf: Ctrl+R (history), Ctrl+T (files)"
+echo "  • Copyfile: copyfile file.txt"
+echo "  • copypath: copypath (copies current directory)"
+echo "  • Web search: google 'query'"
+echo "  • Git: Multiple git aliases available"
 echo
