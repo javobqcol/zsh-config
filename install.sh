@@ -123,7 +123,25 @@ echo
 echo "[*] Installing your config..."
 
 cp .zshrc "$HOME/.zshrc"
-cp .p10k.zsh "$HOME/.p10k.zsh"
+
+# Crear .p10k.zsh si no existe
+if [ -f ".p10k.zsh" ]; then
+    cp .p10k.zsh "$HOME/.p10k.zsh"
+else
+    echo "[!] .p10k.zsh no encontrado, se creará configuración minimal"
+    cat > "$HOME/.p10k.zsh" << 'EOF'
+# Configuración minimal de Powerlevel10k
+# Ejecuta: p10k configure
+# para personalizar tu prompt
+typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+  dir
+  vcs
+)
+typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+  status
+)
+EOF
+fi
 
 echo
 echo "[*] Setting Zsh as default shell..."
