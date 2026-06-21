@@ -1,10 +1,13 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 set -e
 
-REPO="https://github.com/javobqcol/zsh-config.git"
+REPO="git@github.com:javobqcol/zsh-config.git"
 TMPDIR=$(mktemp -d)
 
+echo "[+] Clonando configuración..."
 git clone "$REPO" "$TMPDIR"
 
-bash "$TMPDIR/install.sh"
+cd "$TMPDIR"
+
+echo "[+] Ejecutando instalador..."
+bash install.sh
