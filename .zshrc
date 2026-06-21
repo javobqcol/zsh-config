@@ -75,20 +75,39 @@ fi
 
 # Plugins base (siempre disponibles)
 plugins=(
-  git
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-  zsh-history-substring-search
-  vi-mode
+  # ============================================
+  # CORE PLUGINS
+  # ============================================
+  git                             # Git aliases y utilidades
+  vi-mode                         # Modo vi en línea de comandos
+  
+  # ============================================
+  # SYNTAX & AUTOCOMPLETION
+  # ============================================
+  zsh-autosuggestions             # Sugiere comandos del historial (↵ para aceptar)
+  zsh-syntax-highlighting         # Resaltado de sintaxis en tiempo real
+  zsh-history-substring-search    # Búsqueda en historial (↑↓ en los comandos)
+  
+  # ============================================
+  # UTILITY PLUGINS
+  # ============================================
+  fzf                             # Búsqueda fuzzy (Ctrl+R, Ctrl+T)
+  extract                         # extract file.tar.gz (soporta zip, rar, 7z, etc)
+  colored-man-pages               # Páginas man con colores
+  command-not-found               # Sugiere instalar paquete si comando no existe
+  copyfile                        # copyfile file.txt (copia contenido al clipboard)
+  copypath                        # copypath (copia ruta actual al clipboard)
+  sudo                            # ESC+ESC para añadir 'sudo' al comando
+  web-search                      # google "query" (busca en navegador)
 )
 
 # Agregar plugins específicos por distro
 case "$DISTRO" in
     arch|manjaro)
-        plugins+=(archlinux)
+        plugins+=(archlinux)        # Utilidades para Arch
         ;;
     debian|ubuntu)
-        # Debian/Ubuntu no tiene plugin específico, pero git está incluido
+        plugins+=(debian)           # Utilidades para Debian
         ;;
     fedora|rhel|centos)
         # RedHat based
