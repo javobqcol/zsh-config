@@ -51,15 +51,20 @@ if [ ${#MISSING[@]} -ne 0 ]; then
     echo
 
     for pkg in "${MISSING[@]}"; do
-        install_pkg "$pkg" || true
+        if install_pkg "$pkg"; then
+            echo "[✓] Installed: $pkg"
+        else
+            echo "[✗] Failed to install: $pkg"
+        fi
     done
 fi
 
 echo
-echo "[*] Checking Zsh..."
+echo "[*] Final check: Zsh..."
 
 if ! need_cmd zsh; then
-    echo "[!] Zsh still not installed. Install it manually."
+    echo "[!] ERROR: Zsh still not installed."
+    echo "[!] Please install it manually and run this script again."
     exit 1
 fi
 
@@ -116,8 +121,8 @@ echo "[*] Backing up current config..."
 
 TS=$(date +%Y%m%d-%H%M%S)
 
-[ -f "$HOME/.zshrc" ] && cp "$HOME/.zshrc" "$HOME/.zshrc.bak.$TS"
-[ -f "$HOME/.p10k.zsh" ] && cp "$HOME/.p10k.zsh" "$HOME/.p10k.zsh.bak.$TS"
+[ -f "$HOME/.zshrc" ] && cp "$HOME/.zshrc" "$HOME/.zshrc.bak.$TS" && echo "[OK] Backed up .zshrc"
+[ -f "$HOME/.p10k.zsh" ] && cp "$HOME/.p10k.zsh" "$HOME/.p10k.zsh.bak.$TS" && echo "[OK] Backed up .p10k.zsh"
 
 echo
 echo "[*] Installing your config..."
@@ -146,15 +151,25 @@ fi
 echo
 echo "[*] Setting Zsh as default shell..."
 
-if [ "$SHELL" != "$(command -v zsh)" ]; then
-    echo "Changing shell..."
-    chsh -s "$(command -v zsh)" || echo "[!] Could not change shell automatically"
-else
+ZSH_PATH=$(command -v zsh)
+if [ "$SHELL" = "$ZSH_PATH" ]; then
     echo "[OK] Zsh already default shell"
+else
+    echo "Changing shell from $SHELL to $ZSH_PATH..."
+    if chsh -s "$ZSH_PATH"; then
+        echo "[✓] Shell changed successfully"
+    else
+        echo "[!] Could not change shell automatically"
+        echo "[*] Run this manually: chsh -s $ZSH_PATH"
+    fi
 fi
 
 echo
 echo "======================================="
-echo " DONE"
-echo " Open a new terminal"
+echo " ✓ INSTALLATION COMPLETE"
 echo "======================================="
+echo
+echo "Next steps:"
+echo "1. Close this terminal and open a new one"
+echo "2. If you want to customize the prompt, run: p10k configure"
+echo
