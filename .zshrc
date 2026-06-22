@@ -135,8 +135,8 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt SHARE_HISTORY
 
 # Editor
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=vim
+export VISUAL=vim
 export SYSTEMD_EDITOR=vim
 
 # ============================================
