@@ -71,31 +71,28 @@ fi
 echo "[OK] Zsh is available"
 
 echo
-echo "[*] Installing Meslo Nerd Font..."
+echo "[*] Installing Meslo Nerd Font (Powerlevel10k branch)..."
 
 FONT_DIR="$HOME/.local/share/fonts"
-URL_BASE="https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Meslo/M/regular/complete"
+# Cambiamos la URL al repositorio correcto de romkatv
+URL_BASE="https://github.com/romkatv/powerlevel10k-media/raw/master"
 
-# Tipos de fuentes Meslo requeridas por Powerlevel10k
 FONTS=(
-    "Meslo%20LGS%20NF%20Regular.ttf"
-    "Meslo%20LGS%20NF%20Bold.ttf"
-    "Meslo%20LGS%20NF%20Italic.ttf"
-    "Meslo%20LGS%20NF%20Bold%20Italic.ttf"
+    "MesloLGS%20NF%20Regular.ttf"
+    "MesloLGS%20NF%20Bold.ttf"
+    "MesloLGS%20NF%20Italic.ttf"
+    "MesloLGS%20NF%20Bold%20Italic.ttf"
 )
 
-# Asegurar que el directorio de fuentes existe
 mkdir -p "$FONT_DIR"
-
 FONT_INSTALLED=false
 
 for font in "${FONTS[@]}"; do
-    # Decodificar el nombre del archivo para guardarlo sin el '%20'
+    # Decodificar %20 a espacios para guardar el archivo con su nombre real
     FONT_NAME=$(echo "$font" | sed 's/%20/ /g')
     
     if [ ! -f "$FONT_DIR/$FONT_NAME" ]; then
         echo "[+] Descargando $FONT_NAME..."
-        # Se usa curl -L por si hay redirecciones en GitHub
         if curl -fLo "$FONT_DIR/$FONT_NAME" "$URL_BASE/$font"; then
             FONT_INSTALLED=true
         else
@@ -106,16 +103,16 @@ for font in "${FONTS[@]}"; do
     fi
 done
 
-# Refrescar la caché de fuentes si se instaló alguna nueva
 if [ "$FONT_INSTALLED" = true ]; then
     if need_cmd fc-cache; then
         echo "[+] Actualizando la caché de fuentes del sistema..."
         fc-cache -f "$FONT_DIR"
         echo "[✓] Fuentes actualizadas con éxito"
     else
-        echo "[!] Advertencia: 'fc-cache' no encontrado. Es posible que debas reiniciar la terminal para ver los cambios."
+        echo "[!] Advertencia: 'fc-cache' no encontrado."
     fi
 fi
+
 
 echo
 echo "[*] Installing Oh My Zsh..."
