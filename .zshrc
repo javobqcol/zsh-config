@@ -43,6 +43,7 @@ if [[ "$TERM" == "linux" ]]; then
     alias la='ls -A'
     alias l='ls -CF'
     alias nano=vim
+    alias nvim=vim
     
 else
     # ============================================
@@ -67,6 +68,7 @@ else
     alias la='ls -A'
     alias l='ls -CF'
     alias nano=vim
+    alias nvim=vim
 fi
 
 # ============================================
