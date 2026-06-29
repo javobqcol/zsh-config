@@ -10,7 +10,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load
 ZSH_THEME="af-magic"
-
+RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
 # ============================================
 # ZSHRC CON DETECCIÓN DE ENTORNO
 # ============================================
