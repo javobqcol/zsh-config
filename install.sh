@@ -154,7 +154,7 @@ install_plugin() {
 
 # Core plugins (incluyen en Oh My Zsh)
 echo "[*] Core plugins (built-in)..."
-for plugin in git vi-mode extract colored-man-pages command-not-found sudo copyfile copypath web-search debian archlinux; do
+for plugin in git extract colored-man-pages command-not-found sudo web-search debian archlinux; do
     echo "[✓] $plugin available (built-in)"
 done
 
